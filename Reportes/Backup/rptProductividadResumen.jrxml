@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Productividad" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10" isIgnorePagination="true">
+	<parameter name="logo" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["logoreporte.png"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecdesde" class="java.lang.String"/>
+	<parameter name="fechasta" class="java.lang.String"/>
+	<parameter name="estado" class="java.lang.String"/>
+	<parameter name="persona" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 	idActividadPersonal,Actividad, Cantidad, Comentario,a.estado, Fecha, Personal, personalCalificacion,
+	SUM((SELECT COUNT(*) FROM actividadpersonal WHERE estado=2 AND idActividadPersonal=a.idActividadPersonal)) AS aprobados,
+	SUM((SELECT COUNT(*) FROM actividadpersonal WHERE estado=0 AND idActividadPersonal=a.idActividadPersonal)) AS rechazados,
+	SUM((SELECT COUNT(*) FROM actividadpersonal WHERE estado=1 AND idActividadPersonal=a.idActividadPersonal)) AS registrados
+FROM actividadpersonal a,Personal p
+WHERE a.idpersonal=p.idpersonal
+AND Fecha BETWEEN $P{fecdesde} AND $P{fechasta}
+AND a.estado LIKE CONCAT('%',$P{estado},'%')
+AND UPPER(CONCAT(nombre,' ',apepat,' ',apemat)) = $P{persona}]]>
+	</queryString>
+	<field name="idActividadPersonal" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Actividad" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Cantidad" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Comentario" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="estado" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Fecha" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Personal" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="personalCalificacion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="aprobados" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rechazados" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="registrados" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="registrados" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{registrados}]]></variableExpression>
+	</variable>
+	<variable name="aprobados" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{aprobados}]]></variableExpression>
+	</variable>
+	<variable name="rechazados" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{rechazados}]]></variableExpression>
+	</variable>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="41">
+			<image>
+				<reportElement x="15" y="4" width="41" height="36"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="105" y="4" width="418" height="35"/>
+				<textElement>
+					<font size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Resumen de Productividad]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band/>
+	</pageHeader>
+	<columnHeader>
+		<band height="229">
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="11" width="116" height="15" backcolor="#CCCCCC"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Personal :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="27" width="116" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Productividad Desde  :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="44" width="115" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Productividad Hasta  :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="132" y="11" width="412" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Personal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="132" y="27" width="243" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{fecdesde}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="132" y="44" width="243" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{fechasta}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="81" width="534" height="20" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DETALLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="61" width="115" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Responsable :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="132" y="61" width="411" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{personalCalificacion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="252" y="148" width="214" height="33"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{aprobados}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="16" y="148" width="226" height="33" backcolor="#CCCCCC"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACTIVIDADES APROBADOS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="16" y="183" width="226" height="33" backcolor="#CCCCCC"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACTIVIDADES RECHAZADOS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="16" y="107" width="226" height="38" backcolor="#CCCCCC"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACTIVIDADES PENDIENTES:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="252" y="183" width="214" height="33"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{rechazados}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="252" y="107" width="214" height="38"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{registrados}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band/>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band/>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

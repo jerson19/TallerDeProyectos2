@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+  <persistence-unit name="appPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>org.adox.app.entities.Actividades</class>
+    <class>org.adox.app.entities.Actividadpersonal</class>
+    <class>org.adox.app.entities.Asistencias</class>
+    <class>org.adox.app.entities.Beneficiarios</class>
+    <class>org.adox.app.entities.Cliente</class>
+    <class>org.adox.app.entities.Cuentas</class>
+    <class>org.adox.app.entities.Empresa</class>
+    <class>org.adox.app.entities.Librobancos</class>
+    <class>org.adox.app.entities.Menu</class>
+    <class>org.adox.app.entities.Oficina</class>
+    <class>org.adox.app.entities.Presupuesto</class>
+    <class>org.adox.app.entities.Proveedor</class>
+    <class>org.adox.app.entities.ProveedorAlt</class>
+    <class>org.adox.app.entities.Recursos</class>
+    <class>org.adox.app.entities.Rol</class>
+    <class>org.adox.app.entities.RolUsuario</class>
+    <class>org.adox.app.entities.Rolmenu</class>
+    <class>org.adox.app.entities.Rptasistencias</class>
+    <class>org.adox.app.entities.Subtabla</class>
+    <class>org.adox.app.entities.Tabla</class>
+    <class>org.adox.app.entities.Trabajador</class>
+    <class>org.adox.app.entities.Ubigeo</class>
+    <class>org.adox.app.entities.Usuario</class>
+    <class>org.adox.app.entities.Personal</class>
+    <properties>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+    </properties>
+  </persistence-unit>
+</persistence>
